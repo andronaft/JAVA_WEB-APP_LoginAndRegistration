@@ -12,12 +12,13 @@ import java.sql.SQLException;
 public class UserDaoImpl implements UserDao {
     ConnectionManager cm = new ConnectionManager();
     Connection con = cm.getConnection();
+
     @Override
     public User findByLogin(String login) {
         User user = null;
         if (con != null) {
             try {
-                PreparedStatement pr = con.prepareStatement("SELECT * FROM User where LOGIN=?");
+                PreparedStatement pr = con.prepareStatement("SELECT * FROM DATABASE.User where LOGIN=?");
                 pr.setString(1,login);
                 ResultSet resultSet = pr.executeQuery();//return sql result
                 if(resultSet.next()) {
@@ -38,12 +39,11 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-
     @Override
     public Boolean save(User user) {
         if (con != null) {
             try {
-                PreparedStatement pr = con.prepareStatement("insert into USER (NAME,SURNAME,LOGIN,PASSWORD) values (?,?,?,?)");
+                PreparedStatement pr = con.prepareStatement("insert into DATABASE.USER (NAME,SURNAME,LOGIN,PASSWORD) values (?,?,?,?)");
                 pr.setString(1,user.getName());
                 pr.setString(2,user.getSurname());
                 pr.setString(3,user.getLogin());
