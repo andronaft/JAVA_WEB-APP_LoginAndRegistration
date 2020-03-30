@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService {
         User findUser = userDao.findByLogin(user.getLogin());
         if(findUser!=null){
             if(findUser.getPassword().equals(user.getPassword())){
-                return "life is beautiful";
+                return "life is beautiful," + "your Id: " + findUser.getId();
             }
         }
         return "do not give up";
