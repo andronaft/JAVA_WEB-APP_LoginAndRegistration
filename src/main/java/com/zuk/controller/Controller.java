@@ -2,10 +2,7 @@ package com.zuk.controller;
 
 import com.zuk.entity.User;
 import com.zuk.service.impl.UserServiceImpl;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -13,13 +10,12 @@ public class Controller {
     UserServiceImpl userService = new UserServiceImpl();
 
     @RequestMapping("/")
-    @ResponseBody
     String main() {
         return "Hello from Controller";
     }
 
+
     @RequestMapping("/loginForm")
-    @ResponseBody
     ModelAndView loginForm() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("loginForm.html");
@@ -27,15 +23,13 @@ public class Controller {
     }
 
     @RequestMapping("/registrationForm")
-    @ResponseBody
     ModelAndView registrationForm() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("registrationForm.html");
         return modelAndView;
     }
 
-    @RequestMapping("/login")
-    @ResponseBody
+    @PostMapping("/login")
     String login(@RequestParam String login,@RequestParam String password) {
         User user = new User();
         user.setLogin(login);
@@ -43,8 +37,7 @@ public class Controller {
         return userService.login(user);
     }
 
-    @RequestMapping("/registration")
-    @ResponseBody
+    @PostMapping("/registration")
     String registration(@RequestParam String name,@RequestParam String surname, @RequestParam String login,@RequestParam String password) {
         User user = new User();
         user.setName(name);
