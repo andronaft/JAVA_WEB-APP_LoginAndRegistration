@@ -47,7 +47,7 @@ public class UserDaoImpl implements UserDao {
                 pr.setString(1,user.getName());
                 pr.setString(2,user.getSurname());
                 pr.setString(3,user.getLogin());
-                pr.setString(4,user.getPassword());
+                pr.setString(4,DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()));
                 pr.executeUpdate();
                 return true;
             } catch (SQLException e) {
