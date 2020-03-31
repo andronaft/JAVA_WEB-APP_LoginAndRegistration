@@ -1,8 +1,11 @@
 package com.zuk.dao.impl;
 
+package com.zuk.dao.impl;
+
 import com.zuk.connection.ConnectionManager;
 import com.zuk.dao.UserDao;
 import com.zuk.entity.User;
+import org.springframework.util.DigestUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,11 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDaoImpl implements UserDao {
-    ConnectionManager cm = new ConnectionManager();
-    Connection con = cm.getConnection();
+
 
     @Override
-    public User findByLogin(String login) {
+    public User findByLogin(String login)  {
+        ConnectionManager cm = new ConnectionManager();
+        Connection con = cm.getConnection();
         User user = null;
         if (con != null) {
             try {
@@ -30,6 +34,8 @@ public class UserDaoImpl implements UserDao {
                     user.setPassword(resultSet.getString("PASSWORD"));
                     return user;
                 }
+                pr.close();
+                con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -41,14 +47,18 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Boolean save(User user) {
+        ConnectionManager cm = new ConnectionManager();
+        Connection con = cm.getConnection();
         if (con != null) {
             try {
                 PreparedStatement pr = con.prepareStatement("insert into DATABASE.USER (NAME,SURNAME,LOGIN,PASSWORD) values (?,?,?,?)");
                 pr.setString(1,user.getName());
                 pr.setString(2,user.getSurname());
                 pr.setString(3,user.getLogin());
-                pr.setString(4,DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()));
+                pr.setString(4, DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()));
                 pr.executeUpdate();
+                pr.close();
+                con.close();
                 return true;
             } catch (SQLException e) {
                 e.printStackTrace();
