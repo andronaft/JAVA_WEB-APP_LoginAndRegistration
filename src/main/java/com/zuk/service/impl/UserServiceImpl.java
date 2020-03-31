@@ -10,7 +10,7 @@ public class UserServiceImpl implements UserService {
     public String login(User user) {
         User findUser = userDao.findByLogin(user.getLogin());
         if(findUser!=null){
-            if(findUser.getPassword().equals(user.getPassword())){
+            if(DigestUtils.md5DigestAsHex((user.getPassword()).getBytes()).equals(findUser.getPassword())){
                 return "life is beautiful," + "your Id: " + findUser.getId();
             }
         }
