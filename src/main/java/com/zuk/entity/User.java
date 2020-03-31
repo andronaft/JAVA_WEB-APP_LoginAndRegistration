@@ -2,11 +2,11 @@ package com.zuk.entity;
 
 public class User {
 
-    int id;
-    String name;
-    String surname;
-    String login;
-    String password;
+    private int id;
+    private String name;
+    private String surname;
+    private String login;
+    private String password;
 
     public int getId() {
         return id;
@@ -47,6 +47,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 }
